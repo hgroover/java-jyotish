@@ -241,15 +241,18 @@ var sTZ = document.forms[0].txtTZ.value;
 var sLat = document.forms[0].txtLat.value;
 var sLong = document.forms[0].txtLong.value;
 var sDST = "0";
-if (document.forms[0].chkDST.isChecked) sDST = "1";
+if (document.forms[0].chkDST.checked) 
+{
+	sDST = "1";
+}
 
-    // If TZ has not been set, wait
-    if (sTZ == '')
-    {
-        dbgOut('<p style="8pt;">Waiting for TZ</p>');
-        return;
-    }
-    gSubmitCount++;
+// If TZ has not been set, wait
+if (sTZ == '')
+{
+	dbgOut('<p style="8pt;">Waiting for TZ</p>');
+	return;
+}
+gSubmitCount++;
 var getURL = 'achart-server.php?name='+sName+'&date='+sDate+'&time='+sTime+'&tz='+sTZ+'&lat='+sLat+'&lon='+sLong+'&dst='+sDST;
 var xmlhttp = new XMLHttpRequest();
 //alert('dbg:send ' + getURL);
