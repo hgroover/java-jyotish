@@ -8,6 +8,6 @@
 //$drupal_base = $_SERVER['DOCUMENT_ROOT'] . $drupal_root;
 
 // Your google maps API key - free from Google
-//$google_maps_key = "AIzaSyAia3ZijlUNEuvtYxyKPwLy59_Ao1xhP1A";
+//$google_maps_key = "AAAABBBBCCCCDDDDEEEEFFFF123456789";
 
 // Closing tag intentionally omitted
