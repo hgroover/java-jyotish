@@ -1,6 +1,6 @@
 <?php
 // Build ver is version of this file and associated javascript and php sources
-$ver_build = 79;
+$ver_build = 80;
 // Major and minor are from applet and maintained in Makefile
 // $js_tz_ver and other values (except $js_tzdata_ver and $js_dtpicker_ver)
 // are extracted from sources and placed here as well
@@ -173,11 +173,26 @@ require_once("achart.js.php");
 
 <!-- init() in achart-js.php is where we used to write applet tag -->
 <body onload="init(false);">
-<div id="main_body" style="margin:5px;">
-<div id="top_menu" ><?php print TopMenu(); ?></div>
-<form id="frmChartEntry" method="post" action="<?php print curURI(); ?>">
+<div id="page_top" style="display: flex; flex-direction: column; margin-left: 6px;">
+  <div id="top_view_links" style="clear: both; display: flex; flex-direction: column">
+<p style="font-size:8pt;"><?php print $ver_info_str; ?> Copyright (C) 2001-2024 Henry Groover. Source available under GPL 2
+<!-- <a href="javascript:ToggleJSOutput()" title="Toggle display of debug output from applet in main page" id="togglejs_link">(dbg on)</a>
+-->
+<a href="javascript:ToggleMainBodyVisible()" title="Show or hide date/time/place entry page">Show/hide</a>
+<a href="javascript:SendDebugOutputToWindow('JavaJyotish output')" title="Send everything below this line to a new window">Pop out</a>
+<a href="javascript:dbgOutReset()" title="Clear contents below this line">Clear output</a>
+<!--
+<a href="javascript:AJAXEvaluateRules(document.achart_main.m_CodedOutput,0)" title="Evaluate rules according to Maharshi Parashara">Parashara Rishi</a>
+<a href="javascript:AJAXEvaluateRules(document.achart_main.m_CodedOutput,1)" title="debug">debug rules</a>
+-->
+</p>
+  </div>
+  <div id="main_body" style="clear: both; display: flex; flex-direction: column">
+    <div id="top_menu" ><?php print TopMenu(); ?></div>
+	<div id="top_form" >
+      <form id="frmChartEntry" method="post" action="<?php print curURI(); ?>">
 <!-- removed z-index: 10 -->
-<div id="applet_container" style="clear:both; float:left; width:360px;">
+        <div id="applet_container">
 <?php
 global $content_id;
 global $content_html;
@@ -198,7 +213,7 @@ if (HasServerCalcVars())
 else
       {
 ?>
-<h5>Enter birth information at right as follows:</h5>
+<h5>Enter birth information as follows:</h5>
 <ol style="font-size:9pt;">
  <li>Enter your name</li>
  <li>Click either the AM or 24 icon to enter time and date of birth in AM/PM or 24-hour time format (try to be accurate within 10 minutes)</li>
@@ -211,7 +226,7 @@ else
 <?php } ?>
 <!-- not used	<param name="PostURL" value="<?php print curParentDirURL(); ?>/achart-output.php"> -->
 </div>
-<div id="form_container" style="float:left; margin-left:5px;">
+<div id="form_container">
 <p>Name: <input type="text" name="txtName" size="20" value="<?php print $name; ?>" title="(Optional) Name of person" onchange="UpdateLink();"/><br/>
 Time and date: <input type="text" name="txtTime" size="4" value="2050" readonly="readonly"/>
 <input type="text" name="txtDate" size="8" value="19601107" readonly="readonly"/>
@@ -232,7 +247,7 @@ Long: <input type="text" name="txtLong" size="7"
 	<span style="font-size:8pt;"><strong>Quick navigation:</strong><?php print ConstructQuickNav();	?></span></p>
  </div>
 </div>
-<div id="tz_container" style="clear:both; float:left;">
+<div id="tz_container" style="">
 <p>TZ:   <input type="text" name="txtTZ" size=5
 	title="Enter timezone as -hhmm (hours and minutes W of GMT) or hhmm (E of GMT) or select from the list below"
 	value="<?php print $tz; ?>"/> (-HHMM for time zones W of Greenwich, HHMM for E)<br/>
@@ -264,11 +279,11 @@ for ($n = 0; $n < sizeof($dtz); $n++)
 }
 ?></select>
 </div>
-<div id="submit_container" style="clear:both; float:left;">
-<div id="extra_link_container" style="clear:both; float:left;"><div id="save_link" style="font-size:8pt; float:left;">
+<div id="submit_container" style="">
+<div id="extra_link_container" style=""><div id="save_link" style="font-size:8pt;">
 <a href="<?php printf( "%s?%s", curURI(), htmlspecialchars($url_with_name) ); ?>">Redisplay</a>
 <?php if ($url_without_name!=$url_with_name) printf (" <a href=\"%s?%s\">anonymous</a>", curURI(), htmlspecialchars($url_without_name) ); ?>
-</div> <div id="save_default_link" style="font-size:8pt; float:left;"></div></div>
+</div> <div id="save_default_link" style="font-size:8pt;"></div></div>
 <p style="clear:both; float:left;"><input type="button" value="Calculate" id="recalc_btn" onclick="SubmitChart();" style="width:360px; height:40px;"/>
 </p>
 </div>
@@ -287,7 +302,7 @@ if (isset( $_POST['share_requested'] ) && $_POST['share_requested'] == "Share my
   }
   else
   {
-    DispatchShare( 'admin@sandiegocollegeofayurveda.net', 'atulkrishna@sandiegocollegeofayurveda.com' );
+    DispatchShare( 'info@learn-ayurveda.com', 'hgweb@learn-ayurveda.com' );
   }
 }
 // Debug early init
@@ -309,18 +324,8 @@ printf( "<p>curURI()=[%s] curPageURL(false)=[%s] curPageURL(true)=[%s] curParent
 </div>
 <div id="copy_link" style="font-size:8pt;">URL for this page: <?php $fullURL = curPageURL() . '?' . htmlspecialchars($url_with_name); printf( "<a href=\"%s\">%s</a>", $fullURL, $fullURL  ); ?></div>
 </form>
+</div><!-- top_form -->
 </div><!-- main_body -->
-<p style="font-size:8pt; clear:both; position:absolute; z-index: 100;"><?php print $ver_info_str; ?> Copyright (C) 2001-2015 Ayurveda Wellness Institute Inc. Source available under GPL 2
-<!-- <a href="javascript:ToggleJSOutput()" title="Toggle display of debug output from applet in main page" id="togglejs_link">(dbg on)</a>
--->
-<a href="javascript:ToggleMainBodyVisible()" title="Show or hide date/time/place entry page">Show/hide</a>
-<a href="javascript:SendDebugOutputToWindow('JavaJyotish output')" title="Send everything below this line to a new window">Pop out</a>
-<a href="javascript:dbgOutReset()" title="Clear contents below this line">Clear output</a>
-<!--
-<a href="javascript:AJAXEvaluateRules(document.achart_main.m_CodedOutput,0)" title="Evaluate rules according to Maharshi Parashara">Parashara Rishi</a>
-<a href="javascript:AJAXEvaluateRules(document.achart_main.m_CodedOutput,1)" title="debug">debug rules</a>
--->
-</p>
 <form id="frmSendOutput" method="post" action="achart-output.php" target="_blank">
 <input type="hidden" name="do_logging" value="1"/>
 <input type="hidden" name="data" value=""/>
@@ -347,7 +352,8 @@ print_r($_SERVER);
 print( "</pre>\n" );
 ******/
 ?>
-<div id="debug_output" style="clear: both; position: absolute;"><?php
+<div id="debug_output" style="clear: both;"><?php
+// Removed position: absolute from div
 global $early_debug_text;
 global $content_id;
 global $content_html;
@@ -361,5 +367,7 @@ print $content_html;
 <!-- removed z-index: 100 from help, z-index: 90 from data -->
 <div id="help" style="<?php if ($useAbs) print 'position:absolute;'; ?> visibility: hidden; margin:5px; padding:8px; left:500px; top:400px; width:600px; height:2px; border:thick solid #0000FF; background-color:#f6f8f6;"></div>
 <div id="data_management" style="<?php if ($useAbs) print 'position:absolute;'; ?> visibility: hidden; margin:5px; padding:8px; left:500px; top:400px; width:600px; height:2px; border:thick solid #0000FF; background-color:#f6f8f6;"></div>
+<div id="end_marker" style="margin-top: 10px;"><!-- end --></div>
+</div>
 </body>
 </html>
