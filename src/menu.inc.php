@@ -35,9 +35,9 @@ function InitMenu()
 
 	//printf( "<!-- baseURL=%s -->\n", $baseURL );
 
-    $own[] = "sandiegocollegeofayurveda.net";
-    $own[] = "sandiegocollegeofayurveda.com";
-    $own[] = "ayurveda-california.org";
+    //$own[] = "naya-ayurveda.com";
+    //$own[] = "nivaseducation.com";
+	$own[] = "ayurveda-jyotish.com";
 
     $isOwn = 0;
     for ($n = 0; $n < sizeof($own); $n++)
@@ -51,7 +51,7 @@ function InitMenu()
 	}
 	if (!$isOwn)
 	{
-		$baseURL = "http://sandiegocollegeofayurveda.net";
+		$baseURL = "https://ayurveda-jyotish.com";
 		$baseURLPrefix = $baseURL;
 		//printf( "<!-- server=%s base=%s -->\n", $_SERVER["SERVER_NAME"], $baseURL );
 	}
@@ -66,8 +66,8 @@ function InitMenu()
     LoadOptionalMenu( $menu_entries, "menu_links_pre.dat" );
 
 	// group alignment (l, r, c, or empty), link url, link title, body of link
-	$menu_entries[] = array("l", $baseURL, "San Diego College of Ayurveda home", "SDCOA");
-	$menu_entries[] = array("l", "{$baseURLPrefix}/courses", "Back to virtual learning", "Courses");
+	$menu_entries[] = array("l", $baseURL, "Ayurveda Jyotish home", "Ayurveda-jyotish");
+	$menu_entries[] = array("l", "https://naya-ayurveda.com", "Back to virtual learning", "Courses");
 	$menu_entries[] = array("l", curURI(), "Discard all changes and reload this page with defaults", "Reload defaults");
 	$menu_entries[] = array("l", "javascript:HelpTopic('share')", "Share this chart for discussion and interpretation", "Share");
 	//$menu_entries[] = array("c", "javascript:HelpShow(-1)", "Toggle help", "Show help");
@@ -93,7 +93,7 @@ function TopMenu()
 {
   global $menu_entries;
   // Was 780px with 300px, 280px, 200px
-  $s = "<div id=\"top_menu_group\" style=\"width:99%; height:14pt; position:relative; float:left; top:0px; left:0px;\">";
+  $s = "<div id=\"top_menu_group\" style=\"width: 900px; display: block; margin: 1px 1px 10px 0px;\">";
   $group_left = "";
   $group_right = "";
   $group_center = "";
@@ -118,7 +118,7 @@ function AddToGroup( &$group, $groupname, $entry, $align, $width )
 {
 	if ($group=="")
 	{
-		$group = sprintf( "<div id=\"%s\" style=\"text-align:%s; float:left; top:2px; width:%s;\">", $groupname, $align, $width );
+		$group = sprintf( "<div id=\"%s\" style=\"float: left%s;\">", $groupname, $align == "left" ? "" : "; margin-left: 30px" /* $align , $width */ );
 	}
 	else
 	{
