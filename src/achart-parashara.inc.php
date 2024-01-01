@@ -1,7 +1,8 @@
 <?php
 // achart-parashara.inc.php - Brihat-parashara-hora-shastra rule evaluation
 // Copyright (C) 2012-2017 San Diego College of Ayurveda. All rights reserved
-// Copyright (C) 2017-2018 Narayana Ayurveda and Yoga Academy LLC. All rights reserved.
+// Copyright (C) 2017-2024 Narayana Ayurveda and Yoga Academy LLC. All rights reserved.
+// Copyright (C) 2012-2024 Henry Groover. All rights reserved.
 
 // All lead-ins for properties are capital letters
 global $allcaps;
@@ -231,6 +232,9 @@ $hl["L12H09"] = "L12 in H9 (26.141): vyayeze bhAgyabhAvasthe guru-dveSI bhaven n
 $hl["L12H10"] = "L12 in H10 (26.142): vyayeze rAjyabhAvasthe vyayo rAjya-kulAd bhavet | pitRto 'pi sukhaM tasya svalpam eva hi jAyate";
 $hl["L12H11"] = "L12 in H11 (26.143): vyayeze lAbhabhAvasthe lAbhe hAniH prajAyate | pareNa rakSitaM dravyaM kadAcil labhate naraH";
 $hl["L12H12"] = "L12 in H12 (26.144): vyayeze vyaya-bhAvasthe vyayAdhikyaM hi jAyate | na zarIra-sukhaM tasya krodhI dveSa-paro nRNAm";
+
+// php8 will throw an exception calling sizeof($errlog)
+$errlog = array();
 
 // Evaluate data and return array of text lines which can be wrapped in <p>...</p>
 function EvaluateParashara( $data, $with_dump = 0 )
