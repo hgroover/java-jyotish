@@ -1,0 +1,63 @@
+Changes to achart.php 1.46.62
+* Added ddd[NSEW]mm to title for quick nav links
+* Added default list of famous people's birth info to data display
+* Added support for $skip_module['module.filename'] in config
+
+Changes to achart / javajyotish 1.46.69
+* Bumped javascript module versions to force reload
+
+Changes to java applet 1.48.116, 22 Oct 2012
+* Limited HTML output to rasi chart
+* Added first pass at coded info
+* Added aspect listing to HTML output
+* Fixed more bugs in standalone mode
+* Added standalone text-only mode
+* Added makefile targets debug and debug-textonly
+
+In web app:
+* Write applet using object tag to enable display of
+  non-java information
+ 
+
+Changes to achart / javajyotish 1.49.70, applet 1.49.118
+ * Added template.svg for path data to use for HTML5 aspect drawing
+ * Updated symbolic data format documentation
+ * Provided coded output for navamamsa as well as rasi
+ * Capture mean daily motion for moon
+ * Added combust to coded output
+ * Added motion range to coded output
+ * Added IsMalefic() to coded output
+ * Added tithi and paksa to coded output
+ * Added conjunction and planets aspecting, aspected by to coded output
+
+Changes to achart / javajyotish 1.50.71, applet 1.50.120
+ * Enhanced aspect drawing in HTML5 output, generated from Inkscape source
+   with special id-naming convention; supports left/right alignment of
+   source and destination points
+ * Add link to send current debug output to a new window (using _blank,
+   usually a new tab); useful for printing HTML5 output
+ * Fix bug where timezone name ended up undefined when loading chart
+   from a previously saved entry
+ * Commented out "Toggle main body visible" feature, which doesn't work
+   as expected without changing the div layout
+
+Changes to achart / javajyotish 1.51.72, applet 1.51.121
+ * Fix missing generated classes in jar (fails html5 output)
+ * Fix css syntax for background-color
+ * Check for plugins defined to avoid php error logging when no drupal
+   installation defined
+
+Changes to achart / javajyotish 1.51.73
+ * Added AJAX-based evaluation of rules in php. Output is in Harvard-Kyoto encoded Sanskrit
+   (some comment-only changes to java code are included)
+ * Fixed some non-compliant HTML (readonly="readonly" instead of readonly)
+
+Changes to achart / javajyotish 1.51.73
+ * Completed chapter 26 text from Maharshi Parashara
+
+Changes to achart / javajyotish 1.51.74
+ * Allow applet vs. object tags to be selected in URL (for debugging)
+ * Select applet tag for Windows platforms (to avoid browser-specific decisions
+   on value of classid)
+ * Added java test link to non-java display html
+

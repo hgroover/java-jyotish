@@ -1,0 +1,6 @@
+Changes to achart / javajyotish 1.51.74
+ * Allow applet vs. object tags to be selected in URL (for debugging)
+ * Select applet tag for Windows platforms (to avoid browser-specific decisions
+   on value of classid)
+ * Added java test link to non-java display html
+
