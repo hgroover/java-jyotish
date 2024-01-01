@@ -1,0 +1,94 @@
+<?php
+
+function javajyotish_data_schema()
+{
+  $schema['jjdata_charts'] = array(
+    'description' => 'Individual chart storage',
+    'fields' => array(
+	'uid' => array(
+	  'description' => 'Owner uid',
+	  'type' => 'int',
+	  'unsigned' => TRUE,
+	  'not null' => TRUE),
+	'cid' => array(
+	  'description' => 'Chart id',
+	  'type' => 'serial',
+	  'unsigned' => TRUE,
+	  'not null' => TRUE),
+	'ckey' => array(
+	  'description' => 'Cookie key',
+	  'type' => 'int',
+	  'unsigned' => TRUE,
+	  'not null' => TRUE,
+	  'default' => '0'),
+	'name' => array(
+	  'description' => 'Name',
+	  'type' => 'varchar',
+	  'length' => 128),
+	//name=Sylvester Stallone&date=19460706&time=1920&lat=40n42&lon=74w00&tz=-0500&dst=1&tzname=America/New_York
+	'date' => array(
+	  'description' => 'Date yyyymmdd',
+	  'type' => 'varchar',
+	  'length' => 8),
+	'time' => array(
+	  'description' => 'Time hhmm',
+	  'type' => 'varchar',
+	  'length' => 6),
+	'lat' => array(
+	  'description' => 'Latitude ddNmm.mmmm',
+	  'type' => 'varchar',
+	  'length' => 12),
+	'lon' => array(
+	  'description' => 'Longitude dddEmm.mmmm',
+	  'type' => 'varchar',
+	  'length' => 12),
+	'tz' => array(
+	  'description' => 'Timezone [-]hhmm',
+	  'type' => 'varchar',
+	  'length' => 6),
+	'tzname' => array(
+	  'description' => 'Timezone name',
+	  'type' => 'varchar',
+	  'length' => 64),
+	'dst' => array(
+	  'description' => 'DST hours',
+	  'type' => 'int',
+	  'default' => '0'),
+	),
+    //'unique keys' => array(    ),
+    'indexes' => array(
+	'cid' => array('cid')
+    ),
+    'primary key' => array('uid','cid')
+  );
+  return $schema;
+}
+
+
+/*********
+function javajyotish_data_update_6015()
+{
+  $ret = array();
+  $ret[] = update_sql("DELETE FROM sasub_validation");
+  db_change_field($ret, "sasub_validation", "svid", "svid", "NOT NULL");
+  db_drop_primary_key($ret, "sasub_validation");
+  db_add_primary_key($ret, 'sasub_validation', array('svid'));
+  db_change_field($ret, "sasub_validation", "svid", "svid", "NOT NULL auto_increment");
+  return $ret;
+}
+**********/
+
+
+function javajyotish_data_install()
+{
+  // Create tables
+  drupal_install_schema('javajyotish_data');
+}
+
+function javajyotish_data_uninstall()
+{
+  // Drop tables
+  drupal_uninstall_schema('javajyotish_data');
+}
+
+// php tag deliberately left open

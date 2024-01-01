@@ -1,0 +1,102 @@
+<?php
+/**
+ * @file
+ * Java Jyotish data module - provides data management services for Drupal integration with Java Jyotish
+ */
+
+require_once( 'jjdata_updates.inc' );
+require_once( 'jjdata_views.inc' );
+require_once( 'jjdata_forms.inc' );
+require_once( 'jjdata_menu.inc' );
+
+/**
+* Define custom permissions
+*/
+function javajyotish_data_perm()
+{
+  return array(
+	'view chart data'
+  );
+}
+
+/**
+* Implements hook_help.
+*
+* Displays help and module information.
+*
+* @param path
+*   Which path of the site we're using to display help
+* @param arg
+*   Array that holds the current path as returned from arg() function
+*/
+function javajyotish_data_help( $path, $arg )
+{
+  switch ($path)
+  {
+    case "admin/help#ebook_data":
+    case "admin/help/ebook_data":
+      return '<p>'.  t("Handles metadata associated with E-books for readers such as Kindle") .'</p>';
+      break;
+  }
+  //return "<p>Sorry, don't have help for {$path}</p>";
+}
+
+
+/**
+ * Access callback ensuring the user profile tabs are visible only to their
+ * owner.
+ *
+ * @param $permission
+ *   Required permission to view the item.
+ * @param $account
+ *   A user object.
+ */
+function jjdata_user_access($permission) {
+  return ($GLOBALS['user']->uid && user_access($permission));
+  //return TRUE;
+}
+
+function jjdata_all_access($permission)
+{
+  return TRUE;
+}
+
+/**
+ * Access callback ensuring content is visible only to friends
+ *
+ * @param $permission
+ *   Required permission to view the item.
+ * @param $account
+ *   A user object.
+ */
+function javajyotish_data_friend_access($permission, $account) {
+  if (!$account || !$account->uid || !$GLOBALS['user']) return FALSE;
+  // Always allow access for self
+  if ($account->uid == $GLOBALS['user']->uid) return TRUE;
+  // Load friend data
+  $status = db_query('SELECT approved FROM {user_relationships} WHERE requester_id = :requester AND requestee_id = :requestee', array(':requester' => $account->uid, ':requestee' => $GLOBALS['user']->uid))->fetchField();
+  //watchdog('ebook_data', "Status {$status} from {$account->uid} connect {$GLOBALS[user]->uid} perm {$permission}" );
+  return ($status == 1 && user_access($permission));
+  //return TRUE;
+}
+
+class JJDataFakeUser {
+  var $uid;
+  var $name;
+  function __construct($newuid=0,$uname="")
+  {
+    $this->uid = $newuid;
+    $this->name = $uname;
+  }
+}
+
+// Given a username, construct $uid class
+function jjdata_uname_to_uidstruct( $uname )
+{
+  if (!$uname) return 0;
+  $result = db_query( "SELECT uid FROM users WHERE name=:uname", array(':uname' => $uname) )->fetchAssoc();
+  if (!$result) return 0;
+  return new JJDataFakeUser($result['uid'], $uname);
+}
+
+// No closing tag - left open deliberately

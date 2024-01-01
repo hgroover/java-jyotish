@@ -1,0 +1,95 @@
+Data format for symbolic representation
+
+The achart Java applet can produce symbolic data representing the end product of calculations.
+The format of this symbolic data is described in this document.
+
+Goals
+The following goals drive the design of the symbolic data format
+* Context-free - the data must be useable either as a single unit or as part of a set of units
+* Compact - the data must be reasonably compact
+* Machine-readable - the data must be easily parsed
+* Basic character set - the data must be represented using numbers and case-sensitive characters, avoiding use
+  of symbols, especially those involved in URLs
+* The data should be easy to use in constructing SQL queries and/or regular expressions
+
+Unit definition
+A unit is separated from other units by whitespace and defines a single point (ascendant, planet or node)
+in one of the chart divisions. Thus to represent nine planets (sun, moon, five planets plus lunar nodes
+Rahu and Ketu) plus ascendant in both Rasi and Navamsa charts requires 20 units.
+
+Basic data types
+Some basic data types recur frequently and are represented as follows:
+<bool> : boolean value represented as 1 (true, yes, on) or 0 (false, no, off)
+<zvalue> : zodiac value which can have values between 01 and 12 inclusive (e.g. sign, house).
+  Leading 0 used to pad number
+<pvalue> : lowercase planet symbol su mo ma me ve ju sa ra ke
+<float> : floating point value
+<pname> : planet or point name - two-letter lowercase values as, su, mo, me, ma, ve, ea, ra, ke, sa, ju, ne, ur, pl
+<division> : chart division - 2-digit numeric representation of division, e.g. 01 for rasi chart, 03 for drekkana,
+  04 for caturthamsa, 12 for dvadasamsa, etc.
+<nvalue> : naksatra value which can range from 01 to 27
+<mvalue> : fixed (0), movable (1) or dual (2)
+<acount> : aspect count 01 - 12
+<avalue> : <pvalue> <astrength> <acount>
+<pnumber> : point number 01 = sun, 02 = moon, 03 = lagna, 04 = mercury, 05 = venus, 06 = mars, 07 = jupiter, 08 = saturn, 09 = rahu, 10 = ketu
+<qvalue> : naksatra pada value (quarter) from 1-4
+
+Unique data pairs can occur exactly once, whereas repeat data pairs may occur more than once
+<udatapair> : <uid> <value>
+<rdatapair> : <id> <value>
+<value> : <nvalue> | <division> | <float> | <zvalue> | <bool> | <avalue> | <pnumber> | <qvalue>
+<uid>: 'P' | 'N' | 'H' | 'S' | 'M' | 'Q' | 'T' | 'K' | 'X' | 'U'
+<rid>: 'L' | 'A' | 'C' | 'R'
+
+'T' = tithi, 01 - 15
+'K' = paksa, 1 (gaura/sukla), 2 (krishna)
+'X' = is malefic (moon is malefic from krishnastami through gaurastami)
+'C' = planet conjunct with
+'R' = receiving aspect from - same format as A without 2 digits indicating separation
+'U' = combust (0 or not present = not at all; 1 = combust; 2 = deep combust)
+'O' = ownership / occupation
+	'-2' House of bitter enemy
+	'-1' House of enemy
+	'0'	Neutral
+	'1' House of friend
+	'2' House of great friend
+	'3' Own sign
+'E' = exaltation / debilitation / MTK values:
+	'-2' Extreme debilitation
+	'-1' Debilitated
+	'1' Exalted
+	'2' Highly exalted
+	'3' mUla-trikoNa
+'Z' = longitude in decimal degrees (float)
+'B' = 1 if retrograde, 2 if stopped
+
+'D' is not set but reserved for derived values. By convention some of the derived values are:
+  Dcx<value>	Has conjunction with {malefic, benefic}
+  Drx<value>	Receives aspect of {malefic, benefic}
+
+Unit syntax
+<pname> '-' <division> ':'
+
+Aspects need to be represented either this way or via <avalue>
+<pname> <astrength> <pname> '-' <division>
+
+<astrength> : '[' <qvalue> ']'
+qvalues represent the number of quarters of fullness, i.e. 4 is 100%, 3 is 75%, 2 is 50%, 1 is 25%
+<qvalue> : '1' | '2' | '3' | '4'
+
+Example dump for test chart:
+as-01:P03S02N07Q1H00T08K1
+ma-01:P06S02N07Q2H00Asu[2]05Ame[2]05Aju[4]07Asa[4]07L06L11X1
+ra-01:P09S04N11Q2H02
+me-01:P04S06N16Q1H04CsuAmo[2]09Aas[2]09Ama[2]09Aju[1]03Asa[1]03L01L04X0Rma[2]Rmo[2]
+su-01:P01S06N16Q1H04Amo[2]09Aas[2]09Ama[2]09Aju[1]03Asa[1]03L03X1
+ve-01:P05S07N18Q4H05L05L12X0
+ju-01:P07S08N19Q3H06Amo[4]07Aas[4]07Ama[4]07L07L10X0
+sa-01:P08S08N20Q3H06Amo[4]07Aas[4]07Ama[4]07L08L09X1
+ke-01:P10S10N24Q4H08
+mo-01:P02S02N06Q3H00Asu[2]05Ame[2]05Aju[4]07Asa[4]07L02
+
+D is reserved for derived values when searching
+
+Unused alphabet elements
+FG IJ Q VW Y

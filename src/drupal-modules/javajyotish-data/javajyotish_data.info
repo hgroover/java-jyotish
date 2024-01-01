@@ -1,0 +1,14 @@
+name = Java Jyotish Data
+description = <p>This module provides server functions for JavaJyotish. It does not provide any useful features other than in conjunction with a JavaJyotish installation.</p>
+package = Database
+core = 6.x
+#dependencies[] = messaging
+files[] = javajyotish_data.module
+files[] = jjdata_updates.inc
+files[] = jjdata_views.inc
+files[] = jjdata_forms.inc
+files[] = jjdata_menu.inc
+
+version = "0.12"
+;project = "drupal"
+
