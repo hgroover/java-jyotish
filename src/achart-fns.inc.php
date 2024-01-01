@@ -21,7 +21,9 @@ function curBaseURL()
 	if (isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == "on") $pageURL .= "s";
 	$pageURL .= "://";
 	$pageURL .= $_SERVER['SERVER_NAME'];
-	if ($_SERVER['SERVER_PORT'] != "80") $pageURL .= ":{$_SERVER[SERVER_PORT]}";
+	$server_port = "80";
+	if (array_key_exists('SERVER_PORT', $_SERVER)) $server_port = $_SERVER['SERVER_PORT'];
+	if ($server_port != "80") $pageURL .= ":{$server_port}";
 	return $pageURL;
 }
 
