@@ -1,6 +1,11 @@
 #!/bin/sh
 # Wrapper to run a chart headless
 
+# Log all command invocations
+MYDIR=$(dirname $0)
+LOGPATH=${MYDIR}/log
+LOGFILE=${LOGPATH}/rc-$(date +'%Y%m').log
+
 syntax()
 {
   echo "$*"
@@ -12,6 +17,9 @@ syntax()
   echo "DST is 0 or 1"
   exit 1
 }
+
+[ -d ${LOGPATH} ] || { mkdir -p ${LOGPATH}; echo "Begin log with ${LOGFILE}" >> ${LOGFILE}; }
+echo "$0 $*" >> ${LOGFILE}
 
 OUTPUT=$1
 YEAR=$2
@@ -56,6 +64,8 @@ SUBJECT_NAME_SED="$(echo "${SUBJECT_NAME}" | sed 's:/:\\/:g')"
 # Note that realpath is not on CentOS - use readlink -e for same functionality
 OUTPUT=$(readlink -e ${OUTPUT})
 echo "Output path ${OUTPUT}"
+echo "Output path ${OUTPUT}" >> ${LOGFILE}
+
   # If ${OUTPUT} was created empty solely to get full path, delete it
   [ -s ${OUTPUT} ] || rm ${OUTPUT}
   PHP_DIR=.
@@ -100,7 +110,7 @@ CP="-cp $(readlink -e ${MYDIR}/${JAR_DIR}AChart-${ACHART_VER}.jar):$(readlink -e
   then
 	cp ${PHP_DIR}/achart-parashara.inc.php ${OUTPUT}.php
 	echo "\$a = EvaluateParashara(\"$(cat ${OUTPUT}.code)\"); foreach (\$a as \$s) { printf(\"<p>%s</p>\n\", Translit(\$s,1,1)); }" >> ${OUTPUT}.php
-        php-cli ${OUTPUT}.php >> ${OUTPUT}.html
+        php ${OUTPUT}.php >> ${OUTPUT}.html 2>> ${LOGFILE}
   else
         echo "<!-- no parashara.inc in ${PHP_DIR}, pwd = $(pwd) -->" >> ${OUTPUT}.html
   fi
