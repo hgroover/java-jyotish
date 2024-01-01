@@ -5,9 +5,24 @@ header( "Content-Type: text/plain" );
 
 require_once( "server-calc.inc.php" );
 
+// Sanitize input - script kiddies are posting directly 
+function sanitized( $s )
+{
+	if ($s)
+	{
+		$cleanlen = strcspn( $s, "\"'`$<>[]\\/" );
+		if ($cleanlen != strlen( $s )) 
+		{
+			// FIXME log all the attempts
+			return "";
+		}
+	}
+	return $s;
+}
+
 function default_empty( $n )
 {
-  if (isset( $_REQUEST[$n] )) return $_REQUEST[$n];
+  if (isset( $_REQUEST[$n] )) return sanitized( $_REQUEST[$n] );
   return "";
 }
 
@@ -23,6 +38,7 @@ $tz = default_empty("tz");
 $dst = default_empty("dst");
 //$preload = default_empty("preload");
 //$content_id = default_empty("content_id");
+
 if ($year != "" && $month != "" && $day != "" && $time != "" && $lat != "" && $lon != "" && $tz != "")
 {
     print( "<!-- start calc -->" );
