@@ -1,0 +1,4 @@
+# Local menu links
+# Empty lines and lines beginning with # (like this one) are ignored
+# Tab-delimited, fields are alignment (r|l|c), url, link title, link body text
+#r	/astro	Return to index page	Back to index

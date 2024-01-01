@@ -1,0 +1,18 @@
+To-do notes, 10 July 2012
+
+Web
+* Position help windows for smaller screen (map etc. below java)
+* Position date/time picker for smaller screen (not obscured by java)
+* Provide dynamic image builder for charts (div-based html output won't
+  paste into Word)
+* Provide no-java help with platform-specific hints
+
+Java
+* Connect print output (freezes printing from Win32 xp after output/html)
+* Improve general strength output, one chart at a time
+* Note combustion in print output
+
+Done
+* Dristi
+* Add general strength and dristi to print output
+
